@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'funcoster-plugin'
 
 android {
     compileSdkVersion 28
@@ -35,16 +34,21 @@ dependencies {
     implementation project(':funcoster-api')
 }
 
-costerConfig {
-    enable true
+def localRepoDir = new File(rootProject.localRepoPath)
+if (localRepoDir.exists()) {
+    apply plugin: 'funcoster-plugin'
 
-    include {
-        prefix 'club.fdawei.funcoster.sample'
-    }
+    costerConfig {
+        enable true
 
-    exclude {
-        regex '.+\\.R\\.class'
-        regex '.+\\.R\\$.+\\.class'
-        regex '.+\\.BuildConfig\\.class'
+        include {
+            prefix 'club.fdawei.funcoster.sample'
+        }
+
+        exclude {
+            regex '.+\\.R\\.class'
+            regex '.+\\.R\\$.+\\.class'
+            regex '.+\\.BuildConfig\\.class'
+        }
     }
 }

@@ -1,1 +1,6 @@
-include ':app', ':funcoster-api'
+include ':app', ':funcoster-api', ':funcoster-plugin'
+
+gradle.beforeProject {
+    def localRepoDir = new File(rootDir, 'local-repo')
+    gradle.rootProject.ext.localRepoPath = localRepoDir.absolutePath
+}
