@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
             test1()
             test2()
             test3()
+            Tester.test()
         }, 1000)
     }
 
