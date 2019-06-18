@@ -22,17 +22,20 @@ class MethodInjector extends AdviceAdapter {
     @Override
     protected void onMethodEnter() {
         localMethodEnterTime = newLocal(Type.LONG_TYPE)
-        visitMethodInsn(INVOKESTATIC, "java/lang/System", "nanoTime", "()J", false)
-        visitVarInsn(LSTORE, localMethodEnterTime)
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "nanoTime", "()J", false)
+        mv.visitVarInsn(LSTORE, localMethodEnterTime)
     }
 
     @Override
     protected void onMethodExit(int opcode) {
-        visitLdcInsn(String.format("%s#%s", className, methodName))
-        visitMethodInsn(INVOKESTATIC, "java/lang/System", "nanoTime", "()J", false)
-        visitVarInsn(LLOAD, localMethodEnterTime)
-        visitInsn(LSUB)
-        visitMethodInsn(INVOKESTATIC, "club/fdawei/funcoster/api/FunCoster", "onFunCall",
+        if (opcode == ATHROW) {
+            return
+        }
+        mv.visitLdcInsn(String.format("%s#%s", className, methodName))
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "nanoTime", "()J", false)
+        mv.visitVarInsn(LLOAD, localMethodEnterTime)
+        mv.visitInsn(LSUB)
+        mv.visitMethodInsn(INVOKESTATIC, "club/fdawei/funcoster/api/FunCoster", "onFunCall",
                 "(Ljava/lang/String;J)V", false)
     }
 }
