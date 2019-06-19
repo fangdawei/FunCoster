@@ -4,6 +4,7 @@ import club.fdawei.funcoster.plugin.config.CosterConfig
 import club.fdawei.funcoster.plugin.inject.InjectHelper
 import club.fdawei.funcoster.plugin.util.ClassUtils
 import club.fdawei.funcoster.plugin.util.JarUtils
+import club.fdawei.funcoster.plugin.util.PathUtils
 import com.android.build.api.transform.*
 import com.android.utils.FileUtils
 import org.apache.commons.codec.digest.DigestUtils
@@ -40,7 +41,7 @@ class TransformHandler {
                 dir.name, dir.contentTypes, dir.scopes, Format.DIRECTORY)
         if (invocation.incremental) {
             dir.changedFiles.each {
-                def relativePath = FileUtils.relativePath(it.key, dir.file)
+                def relativePath = PathUtils.relativePath(it.key, dir.file)
                 def destFile = new File(destDir, relativePath)
                 switch (it.value) {
                     case Status.REMOVED:

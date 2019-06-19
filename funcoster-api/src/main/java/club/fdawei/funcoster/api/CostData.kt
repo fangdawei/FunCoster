@@ -24,6 +24,7 @@ class CostData(
     var count: Int = 0
         private set
 
+    @Synchronized
     fun addCost(cost: Long) {
         max = max(max, cost)
         min = if (count == 0) cost else min(min, cost)
@@ -33,18 +34,17 @@ class CostData(
 
     override fun toString(): String {
         return "$key, " +
-                "max=${msValueStr(max)}ms, " +
-                "min=${msValueStr(min)}ms, " +
-                "average=${msValueStr(average)}ms, " +
+                "max=${ns2ms(max)}ms, " +
+                "min=${ns2ms(min)}ms, " +
+                "average=${ns2ms(average)}ms, " +
                 "count=$count"
     }
+}
 
-    private fun msValueStr(value: Long): String {
-        return BigDecimal.valueOf(value).divide(
-            BigDecimal.valueOf(1000000),
-            3,
-            RoundingMode.HALF_UP
-        ).toString()
-    }
-
+fun ns2ms(ns: Long): String {
+    return BigDecimal.valueOf(ns).divide(
+        BigDecimal.valueOf(1000000),
+        3,
+        RoundingMode.HALF_UP
+    ).toString()
 }
