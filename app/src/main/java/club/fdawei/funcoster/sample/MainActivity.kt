@@ -13,6 +13,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        FunCoster.noticeOnlyMain = false
+
         tvHello.setOnClickListener {
             FunCoster.print()
         }
@@ -25,7 +27,6 @@ class MainActivity : AppCompatActivity() {
             test1()
             test2()
             test3()
-            Tester.test()
         }, 1000)
     }
 

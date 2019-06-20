@@ -40,8 +40,7 @@ class TransformHandler {
                 dir.name, dir.contentTypes, dir.scopes, Format.DIRECTORY)
         if (invocation.incremental) {
             dir.changedFiles.each {
-                def relativePath = FileUtils.relativePath(it.key, dir.file)
-                def destFile = new File(destDir, relativePath)
+                def destFile = new File(it.key.absolutePath.replace(dir.file.absolutePath, destDir.absolutePath))
                 switch (it.value) {
                     case Status.REMOVED:
                         FileUtils.deleteIfExists(destFile)
